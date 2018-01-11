@@ -62,18 +62,12 @@ RCT_EXPORT_METHOD(openDoc:(NSArray *)array callback:(RCTResponseSenderBlock)call
         NSString* fileNameOptional = dict[@"fileNameOptional"];
         NSURL* url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSData* dat = [NSData dataWithContentsOfURL:url];
-        RCTLogInfo(@"Url %@", url);
-        RCTLogInfo(@"FileNameOptional %@", fileNameOptional);
-        NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
-        NSString *fileNameExported = [parts lastObject];
-        //Custom Filename
-        NSString *fileName = @"";
+        NSString *fileName;
         if([fileNameOptional length] > 0){
-            NSString* fileExt = [fileNameExported pathExtension];
-            fileName = [NSString stringWithFormat:@"%@%c%@", fileNameOptional , '.', fileExt];
+            fileName = fileNameOptional;
         }else{
-            //get File Name example a.pdf from Url http://xyz/a.pdf
-            fileName = [NSString stringWithFormat:@"%@", fileNameExported];
+            NSArray *parts = [urlStr componentsSeparatedByString:@"/"];
+            fileName = [parts lastObject];
         }
         
         //From the www
